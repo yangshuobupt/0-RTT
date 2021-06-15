@@ -23,12 +23,7 @@ public class RTTJUnitTest {
     @Test
     public void test1() throws Exception {
 
-        ObjectOutputStream oos;
-        ObjectInputStream ois;
-        File file;
         long startTime, endTime;
-
-        FileTransferClient client = new FileTransferClient();
 
         String[] ids = null;
         int num = 16;
@@ -56,37 +51,10 @@ public class RTTJUnitTest {
         PairingKeySerParameter masterKey = keyPair.getPrivate();
         endTime = System.currentTimeMillis();
         System.out.println("setup运行时间：" + (endTime - startTime) + "ms");
-//
-//        oos = new ObjectOutputStream(new FileOutputStream("outputs/pk"));
-//        oos.writeObject(publicKey);
-//        oos.close();
-//        file = new File("outputs/pk");
-//        ois = new ObjectInputStream(new FileInputStream(file));
-//        client.sendFile("pk");
-//
-//        oos = new ObjectOutputStream(new FileOutputStream("outputs/msk"));
-//        oos.writeObject(masterKey);
-//        oos.close();
-//        file = new File("outputs/msk");
-//        ois = new ObjectInputStream(new FileInputStream(file));
-//        client.sendFile("msk");
-
 
         //Keygen
         startTime = System.currentTimeMillis();
         FSPIBMEKeySerParameter rk = fspibmeEngine.RkeyGen(engine, publicKey, masterKey, ids);
-
-
-        oos = new ObjectOutputStream(new FileOutputStream("outputs/rk"));
-        oos.writeObject(rk);
-        oos.close();
-        file = new File("outputs/rk");
-        ois = new ObjectInputStream(new FileInputStream(file));
-        //FSPIBMEKeySerParameter newSk = (FSPIBMEKeySerParameter) ois.readObject();
-        System.out.println(System.currentTimeMillis());
-        client.sendFile("rk");
-
-
         System.out.println("目前RK拥有的结点秘钥 ：" + rk.getTk().keySet());
         endTime = System.currentTimeMillis();
         System.out.println("RKGEN运行时间：" + (endTime - startTime) + "ms");
@@ -125,8 +93,6 @@ public class RTTJUnitTest {
 //        System.out.println("目前RK拥有的结点秘钥有" + rk.getTk().keySet().size() + "个 ：" + rk.getTk().keySet());
 //        Set<String> set2 = rk.getTk().keySet();
 //        setCompare(set1, set2);
-
-        client.close();
 
     }
 }
